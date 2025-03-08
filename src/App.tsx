@@ -1,4 +1,4 @@
-import maplibregl, { LngLatLike, Map, Marker } from "maplibre-gl";
+import maplibregl, { LngLatLike, Map, Marker, Popup } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ZoomControl } from "@/components/zoom-control";
@@ -17,12 +17,11 @@ import { TIpInfo } from "@/types";
 import { IpInfoDrawer } from "@/components/ip-info-drawer";
 import { PopupContent } from "@/components/popup";
 import ReactDOMServer from "react-dom/server";
-import { Popup } from "maplibre-gl";
 import { SearchBar } from "@/components/search-bar";
 import { UsageTracker } from "@/components/usage-tracker";
 import { Tooltip } from "react-tooltip";
 import { TourModal } from "@/components/tour-modal";
-import { HelpIcon, GeolocationIcon } from "./components/icons";
+import { HelpIcon, GeolocationIcon } from "@/components/icons";
 
 /**
  * This function creates a popup for the marker with the IP information.
@@ -258,7 +257,13 @@ function App() {
       >
         {/* About */}
         <div className="absolute border left-4 md:left-4 top-4 md:top-10 map-overlay flex items-center shadow-2xl rounded-lg p-1 md:p-2 bg-white">
-          <img src={Logo} alt="Brand Logo" className="w-full h-8" />
+          <a
+            href="https://github.com/jeafreezy/ip-geolocator"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={Logo} alt="Brand Logo" className="w-full h-8" />
+          </a>
         </div>
 
         {/* Usage tracker */}
@@ -287,8 +292,8 @@ function App() {
           </button>
         </div>
 
-        {/* Geolocator Icon */}
-        <div className="absolute top-1/2 mt-4 right-[15px] map-overlay">
+        {/* Geolocator */}
+        <div className="absolute top-1/2 right-[15px] map-overlay">
           <button
             className="bg-white p-1.5 rounded-full shadow-lg border"
             onClick={handleGeolocate}
