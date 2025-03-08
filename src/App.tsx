@@ -18,12 +18,11 @@ import { IpInfoDrawer } from "@/components/ip-info-drawer";
 import { PopupContent } from "@/components/popup";
 import ReactDOMServer from "react-dom/server";
 import { Popup } from "maplibre-gl";
-import { GeolocationIcon } from "@/components/icons/geolocation";
 import { SearchBar } from "@/components/search-bar";
 import { UsageTracker } from "@/components/usage-tracker";
 import { Tooltip } from "react-tooltip";
-import { TourModal } from "./components/tour-modal";
-import { HelpIcon } from "./components/icons";
+import { TourModal } from "@/components/tour-modal";
+import { HelpIcon, GeolocationIcon } from "./components/icons";
 
 /**
  * This function creates a popup for the marker with the IP information.
@@ -118,6 +117,9 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ipInfoArray));
   }, [ipInfoArray]);
 
+  /**
+   * This effect resets the ip address input and triggers the getIPAddress callback.
+   */
   const handleGeolocate = async () => {
     setIpAddress("");
     await getIPAddress("");

@@ -1,25 +1,25 @@
-// Maximum zoom level allowed
+// Maximum zoom level allowed.
 export const MAX_ZOOM = 23;
 
-// Minimum zoom level allowed
+// Minimum zoom level allowed.
 export const MIN_ZOOM = 2;
 
-// Default map center
+// Default map center.
 export const MAP_CENTER = [0, 0];
 
-// Default zoom level for detectd IP address
+// Default zoom level for detectd IP address.
 export const IP_ZOOM = 12;
 
-// The Ip API URL
+// The Ip service API URL.
 export const IP_API_URL = "https://api.techniknews.net/ipgeo/";
 
-// The app limit
+// The app limit.
 export const USAGE_LIMIT = 50;
 
-// The local storage key
+// The local storage key.
 export const LOCAL_STORAGE_KEY = "ipInfoArray";
 
-// The steps for the guided tour of the application
+// The steps for the guided tour of the application.
 export const TOUR_STEPS = [
   {
     selector: "#search-input",
