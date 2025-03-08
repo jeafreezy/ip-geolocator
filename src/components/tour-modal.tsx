@@ -39,7 +39,7 @@ export const TourModal = ({
           <li>Enter an IP address to get its location.</li>
           <li>View the location on an interactive map.</li>
           <li>
-            Click on the market to get detailed information about the IP
+            Click on the marker to get detailed information about the IP
             address.
           </li>
         </ul>
@@ -51,7 +51,7 @@ export const TourModal = ({
               setOpenModal(false);
             }}
           >
-            Toggle Tour
+            Start tour
           </button>
         </nav>
       </div>

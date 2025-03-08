@@ -242,7 +242,7 @@ function App() {
             id="help-tour-button"
           >
             <HelpIcon className="w-6 h-6" />
-            <Tooltip id="help" content="Help" place="left" />
+            <Tooltip id="help" content="Start tour" place="left" />
           </button>
         </div>
 
