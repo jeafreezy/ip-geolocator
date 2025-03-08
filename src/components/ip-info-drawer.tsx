@@ -49,7 +49,7 @@ export const IpInfoDrawer = ({
                       <strong>
                         {key.charAt(0).toUpperCase() + key.slice(1)}:
                       </strong>{" "}
-                      {value}
+                      {String(value)}
                     </p>
                   ))}
                 </div>

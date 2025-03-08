@@ -5,9 +5,9 @@ export const PopupContent = ({ ipInfo }: { ipInfo: TIpInfo }) => {
     <div>
       {ipInfo && (
         <>
-          {Object.entries(ipInfo).slice(0, 4).map(([key, value]) => (
+          {Object.entries(ipInfo).slice(0, 5).map(([key, value]) => (
             <p key={key}>
-              <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
+              <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong>          {String(value)}
             </p>
           ))}
         </>
