@@ -138,12 +138,18 @@ function App() {
           toast.error(
             "Failed to fetch IP information. Please try again later.",
           );
+          setIsFetching(false);
           return;
         }
-        setIsFetching(false);
+
         ipInfo = await res.json();
+        setIsFetching(false);
+
         if (ipInfo && ipInfo.lat && ipInfo.lon) {
-          setIpInfoArray((prevArray) => [...prevArray, ipInfo!]);
+          const ipExists = ipInfoArray.some((info) => info.ip === ipInfo!.ip);
+          if (!ipExists) {
+            setIpInfoArray((prevArray) => [...prevArray, ipInfo!]);
+          }
         }
       }
 

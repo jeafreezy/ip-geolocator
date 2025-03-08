@@ -58,14 +58,14 @@ export const SearchBar = ({
           <button
             className="p-0.5 w-4"
             onClick={() => setIpAddress("")}
-            aria-label="Clear input"
-            title="Clear input"
+            aria-label="Clear"
+            title="Clear"
             data-tooltip-id="clear-input"
           >
             ✕
           </button>
         )}
-        <Tooltip id="clear-input" content="Clear Input" />
+        <Tooltip id="clear-input" content="Clear" />
         <button
           className={`rounded-full px-2 py-1 flex-1 h-full transition-transform duration-300 ${isValidInput ? "bg-black text-white hover:bg-gray-800 transform" : "bg-gray-300 cursor-not-allowed transform"}`}
           disabled={!isValidInput || isFetching}
