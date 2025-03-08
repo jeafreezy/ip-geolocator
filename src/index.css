@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Makes any element that uses the class visible on the map.*/
+.map-overlay {
+  @apply z-[1000];
+}
