@@ -16,7 +16,9 @@ export const USAGE_LIMIT = 50;
 // The local storage key
 export const LOCAL_STORAGE_KEY = "ipInfoArray";
 
-export const tourSteps = [
+
+// The steps for the guided tour of the application
+export const TOUR_STEPS = [
   {
     selector: "#search-input",
     content: "Type in an IP address to get information about it.",

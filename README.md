@@ -51,7 +51,7 @@ pnpm format
 
 ### Building for Production
 
-1. To create a production build, run:
+To create a production build, run:
    ```sh
    pnpm build
    ```
