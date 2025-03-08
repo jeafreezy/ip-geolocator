@@ -145,7 +145,10 @@ function App() {
         ipInfo = await res.json();
         setIsFetching(false);
 
+
         if (ipInfo && ipInfo.lat && ipInfo.lon) {
+          // Only update the array if the IP address does not exist in state, because when the user geolocates, there 
+          // is no IpAddress in the input field, so the same IP address will be added to the array multiple times.
           const ipExists = ipInfoArray.some((info) => info.ip === ipInfo!.ip);
           if (!ipExists) {
             setIpInfoArray((prevArray) => [...prevArray, ipInfo!]);
