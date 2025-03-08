@@ -4,6 +4,9 @@ export const MAX_ZOOM = 23;
 // Minimum zoom level allowed
 export const MIN_ZOOM = 2;
 
+// Default map center
+export const MAP_CENTER = [0, 0];
+
 // Default zoom level for detectd IP address
 export const IP_ZOOM = 12;
 
@@ -15,7 +18,6 @@ export const USAGE_LIMIT = 50;
 
 // The local storage key
 export const LOCAL_STORAGE_KEY = "ipInfoArray";
-
 
 // The steps for the guided tour of the application
 export const TOUR_STEPS = [

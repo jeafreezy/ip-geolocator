@@ -72,7 +72,7 @@ export const SearchBar = ({
           onClick={getIPAddress}
           aria-label="Locate IP address"
         >
-          Locate
+          {isFetching ? "Locating..." : "Locate"}
         </button>
       </div>
       {/* Validation error */}

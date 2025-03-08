@@ -1,4 +1,4 @@
-import maplibregl, { Map, Marker } from "maplibre-gl";
+import maplibregl, { LngLatLike, Map, Marker } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ZoomControl } from "@/components/zoom-control";
@@ -9,6 +9,7 @@ import {
   IP_API_URL,
   LOCAL_STORAGE_KEY,
   USAGE_LIMIT,
+  MAP_CENTER,
 } from "@/utils";
 import { Logo } from "@/assets";
 import { toast } from "sonner";
@@ -102,7 +103,7 @@ function App() {
         new maplibregl.Map({
           container: mapContainer.current,
           style: "https://tiles.openfreemap.org/styles/positron",
-          center: [0, 0],
+          center: MAP_CENTER as LngLatLike,
           zoom: MIN_ZOOM,
         }),
       );
@@ -131,7 +132,9 @@ function App() {
       );
 
       if (!ipInfo) {
+
         setIsFetching(true);
+
         const res = await fetch(`${IP_API_URL}${ipAddress}`);
 
         if (!res.ok) {
@@ -143,11 +146,12 @@ function App() {
         }
 
         ipInfo = await res.json();
+
         setIsFetching(false);
 
-
         if (ipInfo && ipInfo.lat && ipInfo.lon) {
-          // Only update the array if the IP address does not exist in state, because when the user geolocates, there 
+          toast.success("IP address information retrieved successfully.");
+          // Only update the array if the IP address does not exist in state, because when the user geolocates, there
           // is no IpAddress in the input field, so the same IP address will be added to the array multiple times.
           const ipExists = ipInfoArray.some((info) => info.ip === ipInfo!.ip);
           if (!ipExists) {
@@ -156,9 +160,8 @@ function App() {
         }
       }
 
-      toast.success("IP address information retrieved successfully.");
-
       if (map && ipInfo) {
+
         map.flyTo({ center: [ipInfo.lon, ipInfo.lat], zoom: IP_ZOOM });
 
         if (!markerRef.current) {
@@ -184,9 +187,13 @@ function App() {
    * This effect validates the input as the user types.
    */
   useEffect(() => {
+
+    if (ipAddress.length === 0) return;
+
     const validateIpAddress = (ip: string) => {
       return IP_ADDRESS_REGEX.test(ip);
     };
+
     setIsValidInput(validateIpAddress(ipAddress));
 
     // Remove the marker if the IP address is empty
@@ -196,19 +203,31 @@ function App() {
     }
   }, [ipAddress]);
 
+
   /**
    * This function resets the local storage and the IP information array.
    */
   const handleReset = useCallback(() => {
+
     if (ipInfoArray.length === 0) return;
+
     localStorage.removeItem(LOCAL_STORAGE_KEY);
+
     setIpInfoArray([]);
+
+    if (ipAddress.length > 0) {
+      setIpAddress("");
+    }
+
+    if (map) {
+      map.flyTo({ center: MAP_CENTER as LngLatLike, zoom: MIN_ZOOM });
+    }
     if (markerRef.current) {
       markerRef.current?.remove();
       markerRef.current = null;
     }
     toast.success("Storage reset successfully.");
-  }, [ipInfoArray]);
+  }, [ipInfoArray, map, ipAddress]);
 
   return (
     // Map Container
@@ -277,8 +296,7 @@ function App() {
           isFetching={isFetching}
           isValidInput={isValidInput}
         />
-
-      </div>
+      </div >
     </>
   );
 }

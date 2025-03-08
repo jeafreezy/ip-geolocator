@@ -15,15 +15,15 @@ export const IpInfoDrawer = ({
       direction={window.innerWidth <= 768 ? "bottom" : "left"}
       open={openDrawer}
       onOpenChange={setOpenDrawer}
+
     >
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content
-          className={`${
-            window.innerWidth <= 768
-              ? "bottom-0 w-full"
-              : "left-2 top-2 bottom-2 w-[310px]"
-          } fixed map-overlay outline-none flex`}
+          className={`${window.innerWidth <= 768
+            ? "bottom-0 w-full"
+            : "left-2 top-2 bottom-2 w-[310px]"
+            } fixed map-overlay outline-none flex`}
           style={
             { "--initial-transform": "calc(100% + 8px)" } as React.CSSProperties
           }
@@ -37,8 +37,11 @@ export const IpInfoDrawer = ({
             </button>
             <div className="max-w-md mx-auto">
               <Drawer.Title className="font-medium mb-2 text-zinc-900">
-                IP Information
+                IP Geolocator
               </Drawer.Title>
+              <Drawer.Description className="font-medium mb-2 text-zinc-900">
+                <span className="block border-b w-full "></span>
+              </Drawer.Description>
               {ipInfo ? (
                 <div className="flex flex-col gap-y-1 max-h-[50vh] md:max-h-full overflow-y-auto">
                   {Object.entries(ipInfo).map(([key, value]) => (

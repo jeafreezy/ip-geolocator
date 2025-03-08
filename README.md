@@ -52,9 +52,10 @@ pnpm format
 ### Building for Production
 
 To create a production build, run:
-   ```sh
-   pnpm build
-   ```
+
+```sh
+pnpm build
+```
 
 This will create an optimized build of the application in the `dist` directory.
 
