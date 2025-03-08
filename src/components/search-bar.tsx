@@ -8,12 +8,14 @@ export const SearchBar = ({
   isFetching,
   getIPAddress,
   setIpAddress,
+  handleClearInput
 }: {
   ipAddress: string;
   isValidInput: boolean;
   isFetching: boolean;
-  getIPAddress: () => void;
+  getIPAddress: (ipAddress: string) => void;
   setIpAddress: (ipAddress: string) => void;
+  handleClearInput: () => void;
 }) => {
   /**
    * This effect listens for the Enter key press and triggers the IP address retrieval.
@@ -22,7 +24,7 @@ export const SearchBar = ({
     if (isFetching) return;
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "Enter" && isValidInput) {
-        getIPAddress();
+        getIPAddress(ipAddress);
       }
     };
 
@@ -30,7 +32,7 @@ export const SearchBar = ({
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [isValidInput, getIPAddress, isFetching]);
+  }, [isValidInput, getIPAddress, isFetching, ipAddress]);
 
   return (
     <div
@@ -57,7 +59,7 @@ export const SearchBar = ({
         {ipAddress && (
           <button
             className="p-0.5 w-4"
-            onClick={() => setIpAddress("")}
+            onClick={handleClearInput}
             aria-label="Clear"
             title="Clear"
             data-tooltip-id="clear-input"
@@ -69,7 +71,7 @@ export const SearchBar = ({
         <button
           className={`rounded-full px-2 py-1 flex-1 h-full transition-transform duration-300 ${isValidInput ? "bg-black text-white hover:bg-gray-800 transform" : "bg-gray-300 cursor-not-allowed transform"}`}
           disabled={!isValidInput || isFetching}
-          onClick={getIPAddress}
+          onClick={() => getIPAddress(ipAddress)}
           aria-label="Locate IP address"
         >
           {isFetching ? "Locating..." : "Locate"}

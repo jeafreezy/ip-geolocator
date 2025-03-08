@@ -82,6 +82,7 @@ function App() {
   });
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+
   /**
    * This effect opens the tour on the first render.
    */
@@ -117,10 +118,15 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ipInfoArray));
   }, [ipInfoArray]);
 
+  const handleGeolocate = async () => {
+    setIpAddress("");
+    await getIPAddress("");
+  }
+
   /**
    * This callback retrieves the IP address information and updates the map with the location.
    */
-  const getIPAddress = useCallback(async () => {
+  const getIPAddress = useCallback(async (ipAddress: string) => {
     try {
       if (ipInfoArray.length >= USAGE_LIMIT) {
         toast.error("IP information limit reached. Please reset storage.");
@@ -150,18 +156,19 @@ function App() {
         setIsFetching(false);
 
         if (ipInfo && ipInfo.lat && ipInfo.lon) {
-          toast.success("IP address information retrieved successfully.");
           // Only update the array if the IP address does not exist in state, because when the user geolocates, there
           // is no IpAddress in the input field, so the same IP address will be added to the array multiple times.
           const ipExists = ipInfoArray.some((info) => info.ip === ipInfo!.ip);
           if (!ipExists) {
+            setIpAddress(ipInfo.ip);
             setIpInfoArray((prevArray) => [...prevArray, ipInfo!]);
           }
         }
       }
 
-      if (map && ipInfo) {
-
+      if (map && ipInfo && ipInfo.lat && ipInfo.lon) {
+        setIpAddress(ipInfo.ip);
+        toast.success("IP address information retrieved successfully.");
         map.flyTo({ center: [ipInfo.lon, ipInfo.lat], zoom: IP_ZOOM });
 
         if (!markerRef.current) {
@@ -175,13 +182,15 @@ function App() {
             createPopup(ipInfo, setOpenDrawer, setIpInfo),
           );
         }
+      } else {
+        toast.error("Failed to fetch IP information. Please try again later.");
       }
     } catch {
       toast.error("Failed to fetch IP information. Please try again later.");
       setOpenDrawer(false);
       setIsFetching(false);
     }
-  }, [ipAddress, map, ipInfoArray]);
+  }, [map, ipInfoArray]);
 
   /**
    * This effect validates the input as the user types.
@@ -203,6 +212,18 @@ function App() {
 
 
   /**
+   * This callback clears the IP address input and resets the map.
+   */
+  const handleClearInput = useCallback(() => {
+    if (ipAddress.length > 0) {
+      setIpAddress("");
+    }
+    if (map) {
+      map.flyTo({ center: MAP_CENTER as LngLatLike, zoom: MIN_ZOOM });
+    }
+  }, [ipAddress, map]);
+
+  /**
    * This function resets the local storage and the IP information array.
    */
   const handleReset = useCallback(() => {
@@ -210,22 +231,14 @@ function App() {
     if (ipInfoArray.length === 0) return;
 
     localStorage.removeItem(LOCAL_STORAGE_KEY);
-
+    handleClearInput();
     setIpInfoArray([]);
-
-    if (ipAddress.length > 0) {
-      setIpAddress("");
-    }
-
-    if (map) {
-      map.flyTo({ center: MAP_CENTER as LngLatLike, zoom: MIN_ZOOM });
-    }
     if (markerRef.current) {
       markerRef.current?.remove();
       markerRef.current = null;
     }
     toast.success("Storage reset successfully.");
-  }, [ipInfoArray, map, ipAddress]);
+  }, [ipInfoArray, handleClearInput]);
 
   return (
     // Map Container
@@ -276,7 +289,7 @@ function App() {
         <div className="absolute top-1/2 mt-4 right-[15px] map-overlay">
           <button
             className="bg-white p-1.5 rounded-full shadow-lg border"
-            onClick={getIPAddress}
+            onClick={handleGeolocate}
             aria-label="Geolocate IP address"
             data-tooltip-id="geolocator"
             id="geolocator"
@@ -293,6 +306,7 @@ function App() {
           getIPAddress={getIPAddress}
           isFetching={isFetching}
           isValidInput={isValidInput}
+          handleClearInput={handleClearInput}
         />
       </div >
     </>
