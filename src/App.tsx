@@ -188,8 +188,6 @@ function App() {
    */
   useEffect(() => {
 
-    if (ipAddress.length === 0) return;
-
     const validateIpAddress = (ip: string) => {
       return IP_ADDRESS_REGEX.test(ip);
     };
