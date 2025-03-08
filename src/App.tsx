@@ -277,15 +277,7 @@ function App() {
           isFetching={isFetching}
           isValidInput={isValidInput}
         />
-        {/* Validation error */}
-        {!isValidInput && ipAddress && (
-          <p
-            id="ip-address-error"
-            className="absolute left-1/2 top-24 transform -translate-x-1/2 text-red-500 text-center bg-white p-2 rounded-lg shadow-xl"
-          >
-            Please enter a valid IP address.
-          </p>
-        )}
+
       </div>
     </>
   );

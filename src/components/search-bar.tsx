@@ -75,6 +75,15 @@ export const SearchBar = ({
           Locate
         </button>
       </div>
+      {/* Validation error */}
+      {!isValidInput && ipAddress && (
+        <p
+          id="ip-address-error"
+          className="absolute left-1/2 top-14 text-nowrap transform -translate-x-1/2 text-red-500 text-center bg-white p-2 rounded-lg shadow-xl"
+        >
+          Please enter a valid IP address.
+        </p>
+      )}
     </div>
   );
 };
